@@ -451,6 +451,20 @@ module.exports = function (webpackEnv) {
                   isEnvDevelopment &&
                     shouldUseReactRefresh &&
                     require.resolve('react-refresh/babel'),
+                  [
+                    'react-intl',
+                    {
+                      messagesDir: 'build/messages',
+                      enforceDescriptions: false,
+                    },
+                  ],
+                  [
+                    'babel-plugin-styled-components',
+                    {
+                      displayName: true,
+                      fileName: false,
+                    },
+                  ],
                 ].filter(Boolean),
                 // This is a feature of `babel-loader` for webpack (not Babel itself).
                 // It enables caching results in ./node_modules/.cache/babel-loader/
@@ -777,18 +791,20 @@ module.exports = function (webpackEnv) {
           // ESLint class options
           cwd: paths.appPath,
           resolvePluginsRelativeTo: __dirname,
-          baseConfig: {
-            extends: [require.resolve('eslint-config-react-app/base')],
-            rules: {
-              ...(!hasJsxRuntime && {
-                'react/react-in-jsx-scope': 'error',
-              }),
-            },
-          },
+          // baseConfig: {
+          //   extends: [require.resolve('eslint-config-react-app/base')],
+          //   rules: {
+          //     ...(!hasJsxRuntime && {
+          //       'react/react-in-jsx-scope': 'error',
+          //     }),
+          //   },
+          // },
         }),
     ].filter(Boolean),
     // Turn off performance processing because we utilize
     // our own hints via the FileSizeReporter
     performance: false,
+    // Surpresses source map related warning for some node_modules deps
+    ignoreWarnings: [/Failed to parse source map/],
   };
 };

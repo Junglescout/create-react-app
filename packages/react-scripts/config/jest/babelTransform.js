@@ -34,4 +34,20 @@ module.exports = babelJest.createTransformer({
   ],
   babelrc: false,
   configFile: false,
+  plugins: [
+    [
+      'babel-plugin-styled-components',
+      {
+        displayName: true,
+        fileName: false
+      }
+    ],
+    [
+      require.resolve('babel-plugin-module-resolver'),
+      {
+        root: ['./'],
+        alias: require('../aliases.js')
+      }
+    ]
+  ],
 });

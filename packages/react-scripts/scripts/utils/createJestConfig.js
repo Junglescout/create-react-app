@@ -7,7 +7,7 @@
  */
 'use strict';
 
-const fs = require('fs');
+// const fs = require('fs');
 const chalk = require('react-dev-utils/chalk');
 const paths = require('../../config/paths');
 const modules = require('../../config/modules');
@@ -15,15 +15,16 @@ const modules = require('../../config/modules');
 module.exports = (resolve, rootDir, isEjecting) => {
   // Use this instead of `paths.testsSetup` to avoid putting
   // an absolute filename into configuration after ejecting.
-  const setupTestsMatches = paths.testsSetup.match(/src[/\\]setupTests\.(.+)/);
-  const setupTestsFileExtension =
-    (setupTestsMatches && setupTestsMatches[1]) || 'js';
-  const setupTestsFile = fs.existsSync(paths.testsSetup)
-    ? `<rootDir>/src/setupTests.${setupTestsFileExtension}`
-    : undefined;
+  // const setupTestsMatches = paths.testsSetup.match(/src[/\\]setupTests\.(.+)/);
+  // const setupTestsFileExtension =
+  //   (setupTestsMatches && setupTestsMatches[1]) || 'js';
+  // const setupTestsFile = fs.existsSync(paths.testsSetup)
+  //   ? `<rootDir>/src/setupTests.${setupTestsFileExtension}`
+  //   : undefined;
+  const setupTestsFile = '<rootDir>/test/setupTests.js'
 
   const config = {
-    roots: ['<rootDir>/src'],
+    roots: ['<rootDir>/src', '<rootDir>/test'],
 
     collectCoverageFrom: ['src/**/*.{js,jsx,ts,tsx}', '!src/**/*.d.ts'],
 
@@ -33,10 +34,11 @@ module.exports = (resolve, rootDir, isEjecting) => {
         : require.resolve('react-app-polyfill/jsdom'),
     ],
 
-    setupFilesAfterEnv: setupTestsFile ? [setupTestsFile] : [],
+    setupFilesAfterEnv: setupTestsFile ? [setupTestsFile, '<rootDir>/test/setupTestsUnmock.js'] : [],
     testMatch: [
       '<rootDir>/src/**/__tests__/**/*.{js,jsx,ts,tsx}',
       '<rootDir>/src/**/*.{spec,test}.{js,jsx,ts,tsx}',
+      '<rootDir>/test/**/*.{spec,test}.{js,jsx,ts,tsx}',
     ],
     testEnvironment: 'jsdom',
     transform: {
